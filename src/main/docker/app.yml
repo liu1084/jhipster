@@ -1,0 +1,22 @@
+version: '2'
+services:
+    springboot_test2-app:
+        image: springboot_test2
+        external_links:
+            - springboot_test2-mysql:mysql
+            - springboot_test2-elasticsearch:elasticsearch
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+            - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/springboot_test2?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=elasticsearch:9300
+        ports:
+            - 8080:8080
+    springboot_test2-mysql:
+        extends:
+            file: mysql.yml
+            service: springboot_test2-mysql
+    springboot_test2-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: springboot_test2-elasticsearch
